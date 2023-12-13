@@ -1,29 +1,42 @@
 ﻿@model IEnumerable<CasoPractico2_MacoteloYaritza_LopezJoselyn.Models.Marca>
+@using Microsoft.AspNetCore.Identity
 
+@inject SignInManager<IdentityUser> SignInManager
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
+<h1>Lista de marcas</h1>
+@if (SignInManager.IsSignedIn(User))
+    {
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">+ Agregar marca</a>
 </p>
+    }
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreMarca)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreMarca)
+                </td>
+                @if (SignInManager.IsSignedIn(User))
+                {
             <td>
-                <a asp-action="Edit" asp-route-id="@item.NombreMarca">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.NombreMarca">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.NombreMarca">Delete</a>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.NombreMarca">Editar</a>
+                    <a class="btn btn-success" asp-action="Details" asp-route-id="@item.NombreMarca">Datos</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.NombreMarca">Eliminar</a>
             </td>
+                }
         </tr>
 }
     </tbody>

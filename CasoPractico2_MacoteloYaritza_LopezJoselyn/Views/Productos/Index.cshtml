@@ -1,18 +1,26 @@
 ﻿@model IEnumerable<CasoPractico2_MacoteloYaritza_LopezJoselyn.Models.Producto>
+@using Microsoft.AspNetCore.Identity
 
+@inject SignInManager<IdentityUser> SignInManager
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Lista de productos</h1>
 
+@if (SignInManager.IsSignedIn(User))
+    {
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">+ Agregar producto</a>
 </p>
+    }
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreProducto)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Precio)
             </th>
@@ -28,6 +36,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreProducto)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Precio)
             </td>
@@ -37,11 +48,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NombreMarcaNavigation.NombreMarca)
             </td>
+                @if (SignInManager.IsSignedIn(User))
+                {
             <td>
-                <a asp-action="Edit" asp-route-id="@item.NombreProducto">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.NombreProducto">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.NombreProducto">Delete</a>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.NombreProducto">Editar</a>
+                    <a class="btn btn-success" asp-action="Details" asp-route-id="@item.NombreProducto">Datos</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.NombreProducto">Eliminar</a>
             </td>
+                }
         </tr>
 }
     </tbody>

@@ -1,15 +1,20 @@
 ﻿@model IEnumerable<CasoPractico2_MacoteloYaritza_LopezJoselyn.Models.Venta>
+@using Microsoft.AspNetCore.Identity
 
+@inject SignInManager<IdentityUser> SignInManager
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Lista de ventas</h1>
 
+@if (SignInManager.IsSignedIn(User))
+    {
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">+ Agregar venta</a>
 </p>
+    }
 <table class="table">
     <thead>
         <tr>
@@ -49,11 +54,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NombreVendedorNavigation.NombreVendedor)
             </td>
+                @if (SignInManager.IsSignedIn(User))
+                {
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdVenta">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdVenta">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdVenta">Delete</a>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.IdVenta">Editar</a>
+                    <a class="btn btn-success" asp-action="Details" asp-route-id="@item.IdVenta">Datos</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.IdVenta">Eliminar</a>
             </td>
+                }
         </tr>
 }
     </tbody>
